@@ -1,23 +1,85 @@
+<header>
+  <!-- Fixed navbar -->
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Fixed navbar</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
 
-<h1>Hello World</h1>
+<main class="flex-shrink-0">
+  <div class="container">
+    <div class="image-container">
+    <div class="row">
+      <div class="col">
+        <input type="file" (change)="fileChangeEvent($event)" />
+      </div>
+      <div class="row">
+        <div class="col-sm-2">
+          <i class="bi bi-1-circle"></i>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-8">
+        <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="4 / 3"
+          format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
+          (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()">
+        </image-cropper>
+      </div>
+      <div class="col-sm-4">
+        <div class="row">
+          <div class="col-sm-6"></div>
+        </div>
+        <div class="d-grid gap-2 col-6 mx-auto">
+          <button (click)="rotateLeft()" class="btn btn-outline-dark">Rotate left</button>
+          <button (click)="rotateRight()" class="btn btn-outline-dark">Rotate right</button>
+          <button (click)="flipHorizontal()" class="btn btn-outline-dark">Flip horizontal</button>
+          <button (click)="flipVertical()" class="btn btn-outline-dark">Flip vertical</button>
+        </div>
 
-<button type="button" class="btn btn-primary"
-tooltip="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
-Simple demo
-</button>
-
-<button type="button" class="btn btn-primary" (click)="openModal(template)">Create template modal</button>
- 
-<ng-template #template>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Modal</h4>
-    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
-      <span aria-hidden="true" class="visually-hidden">&times;</span>
-    </button>
+        <div class="row d-grid gap-2 d-md-flex justify-content-md-end">
+          <button class="btn btn-outline-dark" (click)="toggleContainWithinAspectRatio()">
+            {{containWithinAspectRatio?'Fill Aspect Ratio':'Contain Within AspectRatio'}}</button>
+          <button class="btn btn-outline-dark" (click)="resetImage()">Reset image</button>
+        
+          <!-- <input [(ngModel)]="rotation" placeholder="Rotation" type="number" (keyup)="updateRotation()" /> <button
+                    (click)="zoomOut()">Zoom -</button> <button (click)="zoomIn()">Zoom +</button> -->
+        </div>
+     
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm">
+        <img [src]="croppedImage" />
+      </div>
+    </div>
   </div>
-  <div class="modal-body">
-    This is a modal.
-  </div>
-</ng-template>
 
-<router-outlet></router-outlet>
+  <router-outlet></router-outlet>
+
+</main>
+
+<footer class="footer mt-auto py-3 bg-light">
+  <div class="container">
+    <span class="text-muted">Place sticky footer content here.</span>
+  </div>
+</footer>

@@ -3,10 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
-import { TooltipModule } from 'ngx-bootstrap/tooltip';
-
-import { ModalModule } from 'ngx-bootstrap/modal';
 
 
 
@@ -17,8 +15,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    TooltipModule.forRoot(),
-    ModalModule.forRoot()
+    ImageCropperModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
