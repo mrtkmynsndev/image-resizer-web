@@ -26,50 +26,61 @@
 
 <main class="flex-shrink-0">
   <div class="container">
+    <app-file-uploader></app-file-uploader>
     <div class="image-container">
-    <div class="row">
-      <div class="col">
-        <input type="file" (change)="fileChangeEvent($event)" />
+      <div class="row">
+        <div class="col-sm-4 mb-2">
+          <input type="file" class="form-control" (change)="fileChangeEvent($event)">
+        </div>
+        <div class="col-sm-6 mb-2">
+          <div class="btn-toolbar" role="toolbar" aria-label="Basic mixed styles example">
+            <button class="btn btn-outline-dark" aria-label="Mute">
+              <i class="bi-crop"></i>
+            </button>
+            <button class="btn btn-outline-dark" aria-label="Mute">
+              <i class="bi bi-arrow-bar-left"></i>
+            </button>
+            <button class="btn btn-outline-dark" aria-label="Mute">
+              <i class="bi bi-arrow-bar-right"></i>
+            </button>
+            <button class="btn btn-outline-dark" aria-label="Mute">
+              <i class="bi bi-symmetry-horizontal"></i>
+            </button>
+            <button class="btn btn-outline-dark" aria-label="Mute">
+              <i class="bi bi-symmetry-vertical"></i>
+            </button>
+          </div>
+        </div>
+        <div class="w-100"></div>
+        <div class="col-sm-4">
+          <div class="input-group mb-3">
+            <button class="btn btn-outline-dark" aria-label="Mute">
+              <i class="bi bi-zoom-in"></i>
+            </button>
+            <button class="btn btn-outline-dark" aria-label="Mute">
+              <i class="bi bi-zoom-out"></i>
+            </button>
+            <input type="number" class="form-control" placeholder="" aria-label="Example text with two button addons">
+          </div>
+        </div>
       </div>
       <div class="row">
-        <div class="col-sm-2">
-          <i class="bi bi-1-circle"></i>
+        <div class="col">
+          <image-cropper 
+          [imageChangedEvent]="imageChangedEvent" 
+          [maintainAspectRatio]="true" 
+          [aspectRatio]="4 / 3"
+            format="png" 
+            (imageCropped)="imageCropped($event)" 
+            (imageLoaded)="imageLoaded()"
+            (cropperReady)="cropperReady()" 
+            (loadImageFailed)="loadImageFailed()"></image-cropper>
         </div>
       </div>
-    </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-8">
-        <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="4 / 3"
-          format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
-          (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()">
-        </image-cropper>
-      </div>
-      <div class="col-sm-4">
-        <div class="row">
-          <div class="col-sm-6"></div>
+      <div class="row">
+        <div class="col-sm">
+          <img class="croppedImage" [src]="croppedImage" />
         </div>
-        <div class="d-grid gap-2 col-6 mx-auto">
-          <button (click)="rotateLeft()" class="btn btn-outline-dark">Rotate left</button>
-          <button (click)="rotateRight()" class="btn btn-outline-dark">Rotate right</button>
-          <button (click)="flipHorizontal()" class="btn btn-outline-dark">Flip horizontal</button>
-          <button (click)="flipVertical()" class="btn btn-outline-dark">Flip vertical</button>
-        </div>
-
-        <div class="row d-grid gap-2 d-md-flex justify-content-md-end">
-          <button class="btn btn-outline-dark" (click)="toggleContainWithinAspectRatio()">
-            {{containWithinAspectRatio?'Fill Aspect Ratio':'Contain Within AspectRatio'}}</button>
-          <button class="btn btn-outline-dark" (click)="resetImage()">Reset image</button>
-        
-          <!-- <input [(ngModel)]="rotation" placeholder="Rotation" type="number" (keyup)="updateRotation()" /> <button
-                    (click)="zoomOut()">Zoom -</button> <button (click)="zoomIn()">Zoom +</button> -->
-        </div>
-     
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm">
-        <img [src]="croppedImage" />
       </div>
     </div>
   </div>

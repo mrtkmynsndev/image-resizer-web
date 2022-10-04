@@ -15,13 +15,12 @@ export class AppComponent {
   imageChangedEvent: any = '';
   croppedImage: any = '';
 
+
   fileChangeEvent(event: any): void {
-    console.log(event)
     this.imageChangedEvent = event;
   }
 
   imageCropped(event: ImageCroppedEvent) {
-    console.log(event)
     this.croppedImage = event.base64;
   }
 
@@ -96,4 +95,5 @@ export class AppComponent {
     //     rotate: this.rotation
     // };
   }
+
 }
