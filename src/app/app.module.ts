@@ -7,6 +7,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { FileDragNDropDirective } from './shared/directives/file-drag-drop.directive';
 import { FormsModule } from '@angular/forms';
 import { FileUploaderComponent } from './shared/components/file-uploader/file-uploader.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { FileUploaderComponent } from './shared/components/file-uploader/file-up
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ImageCropperModule
+    ImageCropperModule,
+    ModalModule.forRoot()
   ],
   exports: [FileUploaderComponent],
   providers: [],

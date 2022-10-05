@@ -3,8 +3,11 @@
       <div class="dropzone" fileDragDrop (filesChangeEmiter)="onFileChange($event)">
         <div class="text-wrapper">
           <div class="centered">
+            <i class="bi bi-upload" style="font-size: 3rem;"></i>
+            <h3>Drag and drop file here</h3>
+            <h3>or</h3>
             <input type="file" name="file" id="file" #file (change)="onFileChange(file.files)" multiple>
-            <label for="file"><span class="textLink">Select your file</span> or Drop it here!</label>
+            <label for="file"><span class="textLink">Browse file</span></label>
           </div>
         </div>
       </div>
@@ -12,13 +15,20 @@
     <hr>
     <h3 mat-subheader>Files</h3>
     <div class="row fileItem" *ngFor="let f of files; let ind = index">
-      <div class="col-sm-12 fileItemIconDiv" (click)="openConfirmDialog(ind);">
-        <i class="fa-6x fileItemIcon"></i>
+      <div class="col-sm-12 fileItemIconDiv" (click)="openConfirmDialog(template, ind);">
+        <i class="bi bi-x-circle-fill"></i>
       </div>
       <div class="col-sm-12 fileItemText">
         <span>{{f.name}}</span>
       </div>
     </div>
+    <ng-template #template>
+      <div class="modal-body text-center">
+        <p>{{dialogMessage}}</p>
+        <button type="button" class="btn btn-danger" (click)="confirm()" >Yes</button>
+        <button type="button" class="btn btn-primary" (click)="decline()" >No</button>
+      </div>
+    </ng-template>
     <!--
     <div>
       <mat-list>

@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+
 
 @Component({
   selector: 'app-file-uploader',
@@ -7,8 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FileUploaderComponent implements OnInit {
   public files: any[] = [];
+  modalRef?: BsModalRef;
+  message?: string;
+  dialogMessage?: string;
 
-  constructor() { }
+  constructor(private modalService: BsModalService) { }
 
   ngOnInit(): void {
   }
@@ -28,7 +33,7 @@ export class FileUploaderComponent implements OnInit {
     // });
   }
 
-  openConfirmDialog(pIndex: any): void {
+  openConfirmDialog(template: TemplateRef<any>, pIndex : any): void {
     // const dialogRef = this.dialog.open(DialogConfirmComponent, {
     //   panelClass: 'modal-xs'
     // });
@@ -41,10 +46,23 @@ export class FileUploaderComponent implements OnInit {
     //     this.deleteFromArray(result);
     //   }
     // });
+   
+    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+    this.dialogMessage = this.files[pIndex].name
   }
 
   deleteFromArray(index: number) {
     // console.log(this.files);
     // this.files.splice(index, 1);
+  }
+
+  confirm(): void {
+    this.message = 'Confirmed!';
+    this.modalRef?.hide();
+  }
+ 
+  decline(): void {
+    this.message = 'Declined!';
+    this.modalRef?.hide();
   }
 }
