@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -8,6 +9,9 @@ import { FileDragNDropDirective } from './shared/directives/file-drag-drop.direc
 import { FormsModule } from '@angular/forms';
 import { FileUploaderComponent } from './shared/components/file-uploader/file-uploader.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { ModalContentComponent } from './shared/components/modal-content/modal-content.component';
+import { ProgressBarComponent } from './shared/components/progress-bar/progress-bar.component';
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
@@ -15,15 +19,25 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     AppComponent,
     FileDragNDropDirective,
     FileUploaderComponent,
+    ModalContentComponent,
+    ProgressBarComponent,
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
     ImageCropperModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    ToastrModule.forRoot(
+      {
+        positionClass: 'toast-bottom-center',
+        closeButton:true,
+        progressBar:true
+      }
+    ),
   ],
-  exports: [FileUploaderComponent],
+  exports: [FileUploaderComponent, ProgressBarComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

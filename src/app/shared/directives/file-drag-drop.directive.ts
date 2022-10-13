@@ -1,4 +1,4 @@
-import { Directive, HostListener, HostBinding, Output, EventEmitter, Input } from '@angular/core';
+import { Directive, HostListener, HostBinding, Output, EventEmitter } from '@angular/core';
 
 @Directive({
   selector: '[fileDragDrop]'
@@ -39,6 +39,7 @@ export class FileDragNDropDirective {
     this.borderStyle = '2px dashed';
     let files = evt.dataTransfer.files;
     let valid_files : Array<File> = files;
+    console.log(valid_files)
     this.filesChangeEmiter.emit(valid_files);
   }
 }

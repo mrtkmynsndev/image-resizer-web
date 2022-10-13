@@ -1,5 +1,6 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, TemplateRef } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -12,57 +13,81 @@ export class FileUploaderComponent implements OnInit {
   modalRef?: BsModalRef;
   message?: string;
   dialogMessage?: string;
+  selectedIndex?: any
+  @Output() fileEvent = new EventEmitter<string>();
 
-  constructor(private modalService: BsModalService) { }
+
+  constructor(private modalService: BsModalService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
   }
 
 
-  onFileChange(pFileList: File[] | any){
-    this.files = Object.keys(pFileList).map((key, indx) => pFileList[indx]);
-    // this._snackBar.open("Successfully upload!", 'Close', {
-    //   duration: 2000,
-    // });
+  onFileChange(pFileList?: File[]) {
+    if (pFileList) {
+      this.files = Object.keys(pFileList).map((key, indx) => {
+        let pFile = pFileList[indx]
+        return pFile
+      });
+
+      // this.uploadFilesSimulator(0);
+      this.toastr.success("Uploaded Successfully!", "", { closeButton: true })
+      this.fileEvent.emit()
+    }
   }
 
-  deleteFile(f: any) {
-    // this.files = this.files.filter(function(w){ return w.name != f.name });
-    // this._snackBar.open("Successfully delete!", 'Close', {
-    //   duration: 2000,
-    // });
+  onFileBrowser(event: Event) {
+    const target = event.currentTarget as HTMLInputElement
+    let fileList: FileList | null = target.files
+    if (fileList) {
+      this.files = Object.keys(fileList).map((key, index) => fileList?[index] : [])
+    }
   }
 
-  openConfirmDialog(template: TemplateRef<any>, pIndex : any): void {
-    // const dialogRef = this.dialog.open(DialogConfirmComponent, {
-    //   panelClass: 'modal-xs'
-    // });
-    // dialogRef.componentInstance.fName = this.files[pIndex].name;
-    // dialogRef.componentInstance.fIndex = pIndex;
+  prepareFilesList(files: Array<any>) {
+    for (const item of files) {
+      item.progress = 0;
+      this.files.push(item);
+    }
+    this.uploadFilesSimulator(0);
+  }
+
+  uploadFilesSimulator(index: number) {
+    setTimeout(() => {
+      if (index === this.files.length) {
+        return;
+      } else {
+        const progressInterval = setInterval(() => {
+          console.log(this.files[index].progress)
+          if (this.files[index].progress === 100) {
+            clearInterval(progressInterval);
+            this.uploadFilesSimulator(index + 1);
+          } else {
+            this.files[index].progress += 10;
+          }
+        }, 200);
+      }
+    }, 1000);
+  }
 
 
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if (result !== undefined) {
-    //     this.deleteFromArray(result);
-    //   }
-    // });
-   
-    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+  openConfirmDialog(template: TemplateRef<any>, pIndex: any): void {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
     this.dialogMessage = this.files[pIndex].name
+    this.selectedIndex = pIndex
   }
 
   deleteFromArray(index: number) {
-    // console.log(this.files);
-    // this.files.splice(index, 1);
+    this.files.splice(index, 1);
   }
 
-  confirm(): void {
-    this.message = 'Confirmed!';
+  confirm(index: number): void {
+    this.deleteFromArray(index)
     this.modalRef?.hide();
+    this.toastr.info("File is deleted", "", { closeButton: true })
   }
- 
+
   decline(): void {
-    this.message = 'Declined!';
     this.modalRef?.hide();
   }
 }
